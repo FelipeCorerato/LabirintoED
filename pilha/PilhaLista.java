@@ -43,7 +43,7 @@ public class PilhaLista <X>
     protected No prim;
     protected int qtd;
 
-    public ListaDesordenada ()
+    public PilhaLista ()
     {
         this.prim = null;
     }
