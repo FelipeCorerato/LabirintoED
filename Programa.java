@@ -6,9 +6,9 @@ import coordenada.*;
 
 public class Programa
 {
-    public static void main (String[] args)
-    {
-        boolean parar = false;
+	public static void main (String[] args)
+	{
+		boolean parar = false;
 		boolean houveErro;
 		try
 		{
@@ -72,7 +72,7 @@ public class Programa
 					parar=true;
 			}
 		}
-		catch (Exception erro) {}
-    }
-    
+		catch (Exception erro) {} // nao ocorrera
+
+	}
 }

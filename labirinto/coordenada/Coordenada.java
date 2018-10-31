@@ -9,8 +9,13 @@ package coordenada;
 */
 public class Coordenada implements Cloneable
 {
-    
+    /**
+	 * Coordenada x de tabuleiro bidimensional
+    */
     protected int x;
+    /**
+	 * Coordenada y de tabuleiro bidimensional
+    */
     protected int y;
 
     /**
