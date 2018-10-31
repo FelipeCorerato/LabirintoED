@@ -54,6 +54,7 @@ public class Labirinto implements Cloneable
 	* utilizou para resolver o labirinto
 	*/
 	protected Pilha<Coordenada> inverso;
+    /////////////////protected PilhaLista<Coordenada> inverso;
 
 	/**
 	* Método construtor - armazena na memória um labirinto encontrado em um arquivo de texto através do caminho passado como parâmetro.
@@ -109,6 +110,7 @@ public class Labirinto implements Cloneable
 			}
 
 			this.inverso = new Pilha<Coordenada> (this.numeroLinhas*this.numeroColunas);
+            ///////////////this.inverso = new PilhaLista<Coordenada> (this.numeroLinhas*this.numeroColunas);
 
 			arquivo.close();
 
@@ -221,7 +223,8 @@ public class Labirinto implements Cloneable
 	* @return o valor de {@link Labirinto#inverso}
 	*/
 	public Pilha<Coordenada> getInverso() { return this.inverso; } // Retornara uma pilha vazia caso o labirinto nao esteja resolvido
-
+    /////////////////public PilhaLista<Coordenada> getInverso() { return this.inverso; }
+    
 	/**
 	* Método get do atributo {@link Labirinto#entrada}
 	* @return o valor de {@link Labirinto#entrada}
@@ -272,7 +275,9 @@ public class Labirinto implements Cloneable
 		{
 			Coordenada atual                       = (Coordenada)this.entrada.clone();
 			Pilha<Coordenada> caminho              = new Pilha<Coordenada> (this.numeroLinhas*this.numeroColunas);
+            ///////////////PilhaLista<Coordenada> caminho              = new PilhaLista<Coordenada> (this.numeroLinhas*this.numeroColunas);
 			Pilha<Fila<Coordenada>> possibilidades = new Pilha<Fila<Coordenada>> (this.numeroLinhas*this.numeroColunas);
+            /////////////////////PilhaLista<Fila<Coordenada>> possibilidades = new PilhaLista<Fila<Coordenada>> (this.numeroLinhas*this.numeroColunas);
 			Labirinto labirintoResolvido           = (Labirinto)this.clone();
 
 			Fila<Coordenada> fila;
@@ -326,6 +331,7 @@ public class Labirinto implements Cloneable
 			}
 
 			Pilha<Coordenada> pilhaAux = new Pilha<Coordenada> (this.numeroLinhas*this.numeroColunas);
+            //////////////////PilhaLista<Coordenada> pilhaAux = new PilhaLista<Coordenada> (this.numeroLinhas*this.numeroColunas);
 			for (int i=0; i<=caminho.getTopo(); i++)
 			{
 				pilhaAux.empilhe(caminho.getElemento());
@@ -333,6 +339,7 @@ public class Labirinto implements Cloneable
 			}
 
 			labirintoResolvido.inverso=(Pilha)pilhaAux.clone();
+			//////////////////////labirintoResolvido.inverso=(PilhaLista)pilhaAux.clone();
 			labirintoResolvido.resolvido=true;
 			labirintoResolvido.haSolucao=haCaminho;
 			return labirintoResolvido;
@@ -521,6 +528,7 @@ public class Labirinto implements Cloneable
 		this.labirinto      = new char[modelo.numeroLinhas][modelo.numeroColunas];
 		this.haSolucao      = modelo.haSolucao;
 		this.inverso        = (Pilha)modelo.inverso.clone();
+		//////////////////////this.inverso        = (PilhaLista)modelo.inverso.clone();
 		for (int i1=0; i1<=modelo.numeroLinhas-1; i1++)
 			for (int i2=0; i2<=modelo.numeroColunas-1; i2++)
 				this.labirinto[i1][i2] = modelo.labirinto[i1][i2];
