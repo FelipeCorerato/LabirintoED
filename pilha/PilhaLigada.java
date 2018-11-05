@@ -1,7 +1,7 @@
 package desordenada;
 import java.lang.reflect.*;
 
-public class PilhaLista <X>
+public class PilhaLigada <X>
 {
     protected class No
     {
@@ -43,7 +43,7 @@ public class PilhaLista <X>
     protected No prim;
     protected int qtd;
 
-    public PilhaLista ()
+    public PilhaLigada ()
     {
         this.prim = null;
     }

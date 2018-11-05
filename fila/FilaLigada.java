@@ -2,89 +2,77 @@ package fila;
 import java.lang.reflect.*;
 
 /**
- * Classe Fila armazena elementos na forma da estrutura de dados fila.
- * @author Eduardo Porto
+ * Classe FilaLigada armazena elementos na forma da estrutura de dados fila.
+ * @author Artur Morais
  * @author Felipe Corerato 
- * @author Joao Henri
 */
-public class Fila<X> implements Cloneable
+public class FilaLigada<X> implements Cloneable
 {
-	protected int inicio;
-	protected int fim;
+    private class No
+    {
+        protected X  info;
+        protected No prox;
+
+        public X getInfo ()
+        {
+            return this.info;
+        }
+
+        public No getProx ()
+        {
+            return this.prox;
+        }
+
+        public void setInfo (X x)
+        {
+            this.info=x;
+        }
+
+        public void setProx (No n)
+        {
+            this.prox=n;
+        }
+
+        public No (X x, No n)
+        {
+            this.info=x;
+            this.prox=n;
+        }
+
+        public No (X x)
+        {
+            this (x,null);
+        }
+    }   
+	protected No prim;
+    protected No  fim;
 	protected int qtd;
-	protected Object[] elemento;
-	protected float taxaDeCrescimento;
 
     /**
-     * Método que inicia os atributos da classe, recebendo como parâmetros o tamanho do vetor
-     * e o valor da taxa de crescimento.
-     * @param tam tamanho que o vetor terá (em porcentagem)
-     * @param tc  taxa de crescimento do vetor
+     * Construtor da classe FilaLigada.
+     * Inicializa o primeiro No da fila como NULL.
     */
-	protected void iniciacao (int tam, float tc)
+	public FilaLigada ()
 	{
-		this.elemento          = new Object [tam];
-		this.taxaDeCrescimento = tc;
-		this.inicio            =  0;
-		this.qtd               =  0;
-		this.fim               = -1;
-	}
-
-    /**
-     * Construtor da classe Fila com dois parâmetros.
-     * Recebe como parametros o valor do tamanho que a fila tera e o valor da taxa de crescimento.
-     * O metodo entra na excecao se o valor do tamanho ou o da taxa de crescimento for igual ou 
-     * menor que zero.
-     * @param  tam tamanho que sera atribuido ao vetor
-     * @param  tc  taxa de crescimento
-     * @throws Exception caso os parametros sejam iguais ou menores que zero. 
-    */
-	public Fila (int tam, float tc) throws Exception
-	{
-		if (tam<=0)
-			throw new Exception ("ERRO: Tamanho invalido");
-		if (tc<=0)
-			throw new Exception ("ERRO: Taxa de crescimento invalida");
-		this.iniciacao (tam, tc);
-	}
-
-    /**
-     * Construtor da classe Pilha com apenas o tamanho como parametro. O valor da taxa de crescimento será 10.
-     * @param tam tamanho que o vetor tera
-     * @throws Exception se o parametro passado for menor ou igual a zero
-    */
-	public Fila (int tam) throws Exception
-	{
-		if (tam<=0)
-			throw new Exception ("ERRO: Tamanho invalido");
-		this.iniciacao (tam, 10);
-	}
-
-    /**
-     * Construtor da classe Pilha para quando o usuário nao passar nenhum parâmetro
-     * quando instanciar a classe.
-    */
-	public Fila ()
-	{
-		this.iniciacao (10, 10);
+		this.prim = null;
 	}
 
     /**
      * Metodo que retorna o valor do atributo <b>inicio</b>, que representa, no vetor da fila, a posicao do primeiro elemento.
      * @return o valor da variavel inteira inicio
     */
-	public int getInicio ()
+	public X getInicio ()
 	{
-		return this.inicio;
+		return this.prim.getInfo();
 	}
 
     /**
      * Metodo que retorna o valor do atributo <b>fim</b>, que representa, no vetor da fila, a posicao do ultimo elemento.
      * @return o valor da variavel inteira fim
     */
-	public int getFim ()
+	public X getFim ()
 	{
-		return this.fim;
+		return this.fim.getInfo();
 	}
 
     /**
@@ -97,28 +85,6 @@ public class Fila<X> implements Cloneable
 	}
 
     /**
-     * Metodo que retorna a taxa de crescimento da fila.
-     * @return a taxa de crescimento
-    */
-	public float getTaxaDeCrescimento ()
-	{
-		return this.taxaDeCrescimento;
-	}
-
-    /**
-     * Método que ajusta o valor da taxa de crescimento para o valor passado como
-     * parametro.
-     * @param  tc        o valor que será atribuido a taxa de crescimento 
-     * @throws Exception caso o valor passado como parametro seja menor ou igual a zero
-    */
-	public void setTaxaDeCrescimento (float tc) throws Exception
-	{
-		if (tc<=0)
-			throw new Exception ("ERRO: Taxa de crescimento invalida.");
-		this.taxaDeCrescimento = tc;
-	}
-
-    /**
      * Metodo que retorna o elemento armazenado no inicio da fila.
      * @return o elemento no inico da fila
      * @throws Exception caso a fila esteja vazia
@@ -128,7 +94,7 @@ public class Fila<X> implements Cloneable
 		if (this.vazia())
 			throw new Exception ("ERRO: Fila vazia, nao foi possivel retornar seu primeiro elemento.");
 
-		return (X)elemento[inicio];
+		return this.prim.getInfo();
 	}
 
     /**
@@ -138,24 +104,6 @@ public class Fila<X> implements Cloneable
 	public boolean vazia()
 	{
 		return this.qtd==0;
-	}
-
-    /**
-     * Metodo que aumenta o tamanho do vetor de acordo com a taxa de crescimento.
-     * É criado um novo vetor com o novo tamaho, baseado na taxa de crescimento, e este é populado
-     * com os elementos do vetor antigo.
-    */
-	protected void cresca ()
-	{
-		float multiplicador = this.taxaDeCrescimento/100+1;
-		int   tamNovo       = (int)Math.ceil(this.elemento.length*multiplicador);
-
-		Object[] novo = new Object [tamNovo];
-
-		for (int i=this.inicio; i<=this.fim; i++)
-			novo[i] = this.elemento[i];
-
-		this.elemento = novo;
 	}
 
     /**
@@ -296,10 +244,10 @@ public class Fila<X> implements Cloneable
 			return true;
 		if (obj==null)
 			return false;
-		if (!(obj instanceof Fila))
+		if (!(obj instanceof FilaLigada))
 			return false;
 
-		Fila fil = (Fila)obj;
+		FilaLigada fil = (FilaLigada)obj;
 
 		if (this.inicio != fil.inicio)
 			return false;
@@ -322,11 +270,11 @@ public class Fila<X> implements Cloneable
 
     /**
      * Construtor de cópia da classe.
-     * Constroi uma classe Fila igual à passada como parâmetro.
-     * @param modelo uma classe Fila que será copiada
+     * Constroi uma classe FilaLigada igual à passada como parâmetro.
+     * @param modelo uma classe FilaLigada que será copiada
      * @throws Exception se o parâmetro passado for nulo
     */
-	public Fila (Fila modelo) throws Exception
+	public FilaLigada (FilaLigada modelo) throws Exception
 	{
 		if (modelo==null)
 			throw new Exception ("ERRO: Modelo ausente");
@@ -350,11 +298,11 @@ public class Fila<X> implements Cloneable
     */
 	public Object clone ()
 	{
-		Fila ret=null;
+		FilaLigada ret = null;
 
 		try
 		{
-			ret = new Fila (this);
+			ret = new FilaLigada (this);
 		}
 		catch (Exception erro)
 		{}
