@@ -1,7 +1,7 @@
 import java.io.*;
 import labirinto.*;
 import fila.*;
-import pilha.*;
+import pilhaligada.PilhaLigada;
 import coordenada.*;
 
 public class Programa

@@ -48,6 +48,24 @@ public class ListaDesordenada <X> implements Cloneable
         this.prim = null;
 	}
 
+	public X getElemento() throws Exception
+	{
+		if(this.prim == null)
+			throw new Exception("Pilha vazia");
+
+		return this.prim.getInfo();
+	}
+
+	public boolean vazia()
+	{
+		return this.prim == null;
+	}
+
+	public void empilhe(X info) throws Exception
+	{
+		this.insiraNoInicio(info);
+	}
+
 	public void insiraNoInicio(X info) throws Exception
 	{
         if (info == null)
@@ -124,6 +142,16 @@ public class ListaDesordenada <X> implements Cloneable
 
         return false;
     }
+
+    public void desempilhe() throws Exception
+    {
+		if(this.prim == null)
+			throw new Exception("Pilha Vazia");
+
+		this.prim = this.prim.getProx();
+	}
+
+
 
     public void remova(X info) throws Exception
     {
